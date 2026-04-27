@@ -1,4 +1,4 @@
-\# Azure Data Engineering Pipeline (End-to-End)
+\# 🚀 Azure Data Engineering Pipeline (End-to-End)
 
 
 
@@ -6,7 +6,13 @@
 
 
 
-Built an end-to-end data engineering pipeline on Azure to ingest, process, and model data using Medallion Architecture. The pipeline transforms raw data into analytics-ready datasets using scalable cloud services.
+An end-to-end data engineering pipeline built on Azure to ingest, transform, and model data using \*\*Medallion Architecture (Bronze → Silver → Gold)\*\*.
+
+The pipeline processes raw data into analytics-ready datasets using scalable and production-style design patterns.
+
+
+
+\---
 
 
 
@@ -14,33 +20,87 @@ Built an end-to-end data engineering pipeline on Azure to ingest, process, and m
 
 
 
-\* Azure Data Factory (ADF)
+\* Azure Data Factory (ADF) – Data Ingestion
 
-\* Azure Databricks (PySpark)
+\* Azure Databricks (PySpark) – Data Processing
 
-\* Azure Data Lake Storage (ADLS Gen2)
+\* Azure Data Lake Storage Gen2 (ADLS) – Storage
 
-\* Azure SQL Database
+\* Azure SQL Database – Source System
 
-\* Delta Lake
-
-
-
-\## 🏗️ Architecture
+\* Delta Lake – Optimized Storage Format
 
 
 
-Data is ingested from Azure SQL Database using ADF and stored in the Bronze layer. It is then transformed and cleaned in Databricks (Silver layer), and finally modeled into a Gold layer using a Star Schema (fact and dimension tables) for analytics.
+\---
 
 
 
-\## 🔄 Orchestration
+\## 🔄 Medallion Architecture Flow
 
 
 
-\* ADF used for data ingestion (SQL → Bronze)
+```id="flowdiagram1"
 
-\* Databricks Workflows used to orchestrate transformation layers (Silver → Gold)
+Source (Azure SQL Database)
+
+&#x20;       │
+
+&#x20;       ▼
+
+┌───────────────────────┐
+
+│        BRONZE         │  Raw data ingestion using ADF
+
+│   (ADLS - Parquet)    │  Incremental load (watermark)
+
+└─────────┬─────────────┘
+
+&#x20;         │
+
+&#x20;         ▼
+
+┌───────────────────────┐
+
+│        SILVER         │  Transformed data
+
+│   (ADLS - Parquet)    │  Processed using PySpark
+
+└─────────┬─────────────┘
+
+&#x20;         │
+
+&#x20;         ▼
+
+┌───────────────────────┐
+
+│         GOLD          │  Star Schema (Fact \& Dimensions)
+
+│     (Delta Lake)      │  SCD Type 1 implementation
+
+│                       │  Optimized for analytics
+
+└───────────────────────┘
+
+```
+
+
+
+\---
+
+
+
+\## 🔄 Orchestration Strategy
+
+
+
+\* \*\*ADF\*\* → Handles ingestion (SQL → Bronze)
+
+\* \*\*Databricks Workflows\*\* → Orchestrates Silver \& Gold transformations
+
+
+
+\---
 
 
 
@@ -54,11 +114,15 @@ Data is ingested from Azure SQL Database using ADF and stored in the Bronze laye
 
 \* Data transformation using PySpark
 
-\* Dimensional modeling using Star Schema (Fact \& Dimension tables)
+\* Dimensional modeling using \*\*Star Schema\*\*
 
-\* Implemented SCD Type 1 for dimension tables (overwrite-based updates)
+\* Implemented \*\*SCD Type 1\*\* for dimension tables
 
 \* Workflow orchestration using Databricks Workflows
+
+
+
+\---
 
 
 
@@ -66,19 +130,25 @@ Data is ingested from Azure SQL Database using ADF and stored in the Bronze laye
 
 
 
+```id="projstruct1"
+
+/adf/                → ADF pipeline JSON  
+
+/databricks/         → PySpark notebooks (Silver \& Gold layers)  
+
+/rawdata/            → Sample source data (2 datasets)  
+
+/screenshots/        → Architecture \& execution visuals  
+
 ```
 
-/adf/                → ADF pipeline JSON
 
-/databricks/        → PySpark notebooks (Silver \& Gold layers)
 
-/screenshots/       → Pipeline, workflow, and output visuals
-
-```
+\---
 
 
 
-\## 🚀 Data Flow
+\## 🚀 Data Pipeline Flow
 
 
 
@@ -86,11 +156,15 @@ Data is ingested from Azure SQL Database using ADF and stored in the Bronze laye
 
 2\. Stored in Bronze layer (raw data in ADLS)
 
-3\. Cleaned and transformed in Silver layer using Databricks
+3\. Transformed in Silver layer using Databricks (PySpark)
 
-4\. Modeled into Gold layer with fact and dimension tables
+4\. Modeled into Gold layer using Star Schema
 
-5\. Stored as Delta tables for analytics
+5\. Stored as Delta tables for analytics and reporting
+
+
+
+\---
 
 
 
@@ -98,7 +172,11 @@ Data is ingested from Azure SQL Database using ADF and stored in the Bronze laye
 
 
 
-Final curated datasets are stored in the Gold layer as Delta tables, optimized for reporting and downstream analytics.
+Final curated datasets are stored as \*\*Delta tables\*\* in the Gold layer, ready for downstream analytics and reporting tools (e.g., Power BI).
+
+
+
+\---
 
 
 
@@ -118,7 +196,29 @@ Final curated datasets are stored in the Gold layer as Delta tables, optimized f
 
 
 
+\---
 
+
+
+\## 🧠 Future Improvements
+
+
+
+\* Implement SCD Type 2 for historical tracking
+
+\* Add data quality validation checks
+
+\* Integrate Power BI dashboard for visualization
+
+\* Add CI/CD pipeline for deployment
+
+
+
+\---
+
+
+
+⭐ If you found this project useful, feel free to star the repo!
 
 
 
